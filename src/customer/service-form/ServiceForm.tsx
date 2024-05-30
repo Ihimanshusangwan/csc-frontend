@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
-import { GET_FORM_DATA } from "../../api";
+import { GET_FORM_DATA, SUBMIT_FORM_DATA } from "../../api";
 import axiosInstance from "../../axiosConfig";
 import ErrorModal from "../../common/ErrorModal";
 import CustomNavbar from "../dashboard/navbar/CustomNavbar";
@@ -78,10 +78,19 @@ const ServiceForm = () => {
     for (const key in fileValues) {
       formDataToSend.append(key, fileValues[key]);
     }
-    // Log the contents of FormData
-    for (let [key, value] of formDataToSend.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+   
+    axiosInstance.post(`${SUBMIT_FORM_DATA}/${serviceId}`, formDataToSend, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => {
+      console.log('Success:', response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
   };
 
   useEffect(() => {
