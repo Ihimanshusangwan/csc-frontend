@@ -2,8 +2,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import MyAccordion from "../../common/MyAccordian";
-import { CustomerApplicationData } from "../../common/types";
+import { CustomerApplicationData } from "./common/types";
 import { ASSET_BASE_URL } from "../../config";
+import "../../css/customer/dashboard/dashboard.scss"
 
 export default function ApplicationCard({
   applicationData,
@@ -21,12 +22,12 @@ export default function ApplicationCard({
       ? `<a href ="${ASSET_BASE_URL}${applicationData.deliveryDoc}" target='_blank' > View </a> `
       : "Ask Agent to Unlock";
   return (
-    <div className="mb-3 shadow p-3 bg-white rounded">
+    <div className="mb-3 shadow p-3 bg-white rounded card">
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {applicationData.applyDate}
-          </Typography>
+          </Typography> 
           <Typography variant="h5" component="div">
             {applicationData.service.toUpperCase()}
           </Typography>
@@ -39,7 +40,7 @@ export default function ApplicationCard({
           </Typography>
         </CardContent>
         <MyAccordion
-          content={`Status: <strong><span style="color:${applicationData.status.color};">${applicationData.status.name}</span></strong><br/> Price: <span class= 'text-success'> Rs.${applicationData.price}</span> <br/> Receipt: ${receipt} <br/>${reason} `}
+          content={`Status: <strong><span style="color:${applicationData.status.color};">${applicationData.status.name}</span></strong><br/> Receipt: ${receipt} <br/>${reason} `}
           heading="<strong>Details</strong>"
         />
         {applicationData.deliveryDoc && <MyAccordion heading="<strong>Get Document</strong>" content={deliveryDocument}/>}

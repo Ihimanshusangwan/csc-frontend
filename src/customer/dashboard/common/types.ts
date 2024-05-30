@@ -4,7 +4,6 @@ export interface CustomerApplicationData {
   applyDate: string;
   deliveryDate: string;
   status: Status;
-  price: string;
   reciept: string | null;
   deliveryDoc: string;
 }

@@ -4,7 +4,7 @@ import Spinner from "react-bootstrap/esm/Spinner";
 import { ALL_CUSTOMER_APPLICATIONS } from "../../api";
 import axiosInstance from "../../axiosConfig";
 import ErrorModal from "../../common/ErrorModal";
-import { CustomerApplicationData } from "../../common/types";
+import { CustomerApplicationData } from "./common/types";
 import ApplicationCard from "./ApplicationCard";
 
 const Dashboard = () => {

@@ -3,12 +3,15 @@ import { AppBar, Box, Toolbar, Typography, IconButton, Avatar, Menu, MenuItem, T
 import UpdatePasswordModal from '../../UpdatePasswordModal';
 import axiosInstance from '../../../axiosConfig';
 import { UPDATE_PASSWORD } from '../../../api';
+import { useNavigate } from 'react-router-dom';
 
-const settings = ['Update Password', 'Logout'];
+const settings = ['Dashboard','Update Password', 'Logout', 'Apply For Service'];
 
 const App: React.FC = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -32,6 +35,9 @@ const App: React.FC = () => {
     handleCloseUserMenu();
     location.reload();
   };
+  const applyService =() =>{
+    navigate('/services');
+  }
 
   const handleMenuClick = (setting: string) => {
     switch (setting) {
@@ -40,6 +46,12 @@ const App: React.FC = () => {
         break;
       case 'Logout':
         handleLogout();
+        break;
+      case 'Apply For Service':
+        applyService();
+        break;
+      case 'Dashboard':
+        navigate('/dashboard');
         break;
       default:
         break;
@@ -132,7 +144,6 @@ const App: React.FC = () => {
             newPassword
           })
           if(response?.data?.success === false){
-            console.log(response?.data);
             alert(response?.data?.message);
           }
           else{
