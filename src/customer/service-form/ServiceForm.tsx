@@ -4,8 +4,9 @@ import { GET_FORM_DATA, SUBMIT_FORM_DATA } from "../../api";
 import axiosInstance from "../../axiosConfig";
 import ErrorModal from "../../common/ErrorModal";
 import CustomNavbar from "../dashboard/navbar/CustomNavbar";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AgentType } from "./common/types";
+import Swal from 'sweetalert2';
 
 const ServiceForm = () => {
   const [formData, setFormData] = useState(null);
@@ -14,6 +15,7 @@ const ServiceForm = () => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   let { serviceId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance
@@ -39,6 +41,7 @@ const ServiceForm = () => {
             }
           });
           initialFormValues["agent_id"] = data.agent[0]["id"];
+          initialFormValues["service_id"] = serviceId;
 
           data.documentRequirements?.forEach((doc, index) => {
             initialFileValues[`${doc}`] = null;
@@ -79,23 +82,42 @@ const ServiceForm = () => {
       formDataToSend.append(key, fileValues[key]);
     }
    
-    axiosInstance.post(`${SUBMIT_FORM_DATA}/${serviceId}`, formDataToSend, {
+    axiosInstance.post(`${SUBMIT_FORM_DATA}`, formDataToSend, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
     .then(response => {
-      console.log('Success:', response.data);
+      if(response.data.success){
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your Application has been submitted successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/dashboard');
+          }
+        });
+      }
     })
     .catch(error => {
       console.error('Error:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was an error submitting your form. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/dashboard');
+        }
+      });
     });
 
   };
-
+ 
   useEffect(() => {
-    console.log(formValues);
-    console.log(fileValues);
   }, [formValues, fileValues]);
   return (
     <div>
