@@ -91,7 +91,7 @@ const ServiceForm = () => {
       if(response.data.success){
         Swal.fire({
           title: 'Success!',
-          text: 'Your Application has been submitted successfully.',
+          text: 'Your Application has been submitted successfully. It would be visible in your dashboard once approved by the agent :) ',
           icon: 'success',
           confirmButtonText: 'OK'
         }).then((result) => {
